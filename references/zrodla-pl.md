@@ -101,6 +101,23 @@ Fundacje firmowe ogłaszają rundy grantowe na własnych stronach. Aktualność 
 | Fundacja Erste: konkursy grantowe dla organizacji pozarządowych, np. „Haki na cyberataki” (edukacja o cyberbezpieczeństwie i oszustwach; granty 50 tys. zł dla fundacji i stowarzyszeń działających co najmniej 2 lata; edycja 2026 zamknięta 16.11.2026) | https://fundacja.erste.pl/ |
 | Kaufland, „Lepiej po sąsiedzku”: pieniądze na lokalne inicjatywy sąsiedzkie | https://lepiejposasiedzku.pl/ (Chrome) |
 
+## PFR, uczelnie i agencje rozwoju
+
+Sprawdzaj te źródła bezpośrednio na stronach instytucji. Grupa PFR daje głównie kapitał, akcelerację i kontakty z inwestorami, a pieniądze uczelni trafiają najczęściej do ich własnych pracowników, doktorantów i studentów. Oznaczaj to w odpowiedzi.
+
+| Źródło | Dla kogo i na co | Adres | Jak czytać |
+|---|---|---|---|
+| Programy Grupy PFR | jedna lista programów PFR, PFR Ventures, PARP, ARP, KUKE i innych instytucji grupy, z filtrami tematów (np. innowacje i akceleracja, ekspansja zagraniczna, finansowanie i doradztwo) | https://grupapfr.pl/programy | Chrome |
+| PFR dla startupów | bezpłatne programy: VC Connect (spotkania z funduszami VC i partnerami w ścieżkach sektorowych), Szkoła Pionierów PFR (warsztaty przed akceleracją), program dla technologii podwójnego zastosowania, Science Momentum (akceleracja zespołów naukowych); w aktualnościach także nabory, np. bony badawcze POL-OPENSCREEN | https://startup.pfr.pl/ | Chrome (zwykłe pobieranie zwraca 403) |
+| PFR Ventures | fundusz funduszy: nie inwestuje bezpośrednio w firmy, tylko w fundusze VC i PE z programów PFR Starter, PFR Biznest (z aniołami biznesu), PFR Otwarte Innowacje (B+R), PFR KOFFI, PFR CVC, PFR Deep Tech i Starter Science (projekty ze świata nauki). Firma szuka inwestora na liście funduszy z portfela. To inwestycja kapitałowa, nie grant | lista funduszy: https://pfrventures.pl/nasze-portfolio | Chrome |
+| PAIH, Polska Agencja Inwestycji i Handlu | Polskie Mosty Technologiczne: grant dla MŚP na wejście na rynki zagraniczne i rozwój eksportu, nabory konkursowe z FENG | https://www.paih.gov.pl/ | bez przeglądarki |
+| Konkursy wewnętrzne uczelni badawczych (IDUB) | pracownicy, doktoranci i studenci danej uczelni: mikrogranty, granty dla młodych badaczy, staże. Laureaci II edycji (5.11.2026): AGH, Politechnika Gdańska, Politechnika Śląska, Politechnika Warszawska, Politechnika Wrocławska, UAM, UJ, Uniwersytet Medyczny w Białymstoku, UW i Uniwersytet Wrocławski | strona programu IDUB na stronie uczelni; lista laureatów: https://www.gov.pl/web/nauka/poznalismy-laureatow-ii-edycji-programu-inicjatywa-doskonalosci--uczelnia-badawcza | zwykle bez przeglądarki |
+| Centra transferu technologii i spółki celowe uczelni | dla naukowców: granty na prace przedwdrożeniowe (np. w projekcie Science4Business – Nauka dla Biznesu z FENG, na UAM przez UCITT), ochrona patentowa, zakładanie spółek odpryskowych (spin-off); dla firm: bazy technologii, usług badawczych i ekspertów uczelni | strona centrum transferu danej uczelni, np. https://ucitt.amu.edu.pl/ | zwykle bez przeglądarki |
+| MNiSW, „Studenckie koła naukowe tworzą innowacje” | projekty kół naukowych; wniosek składa uczelnia, nie samo koło. VI edycja rozstrzygnięta 16.02.2026 | https://www.gov.pl/web/nauka/informacje-o-programie-studenckie-kola-naukowe-tworza-innowacje | bez przeglądarki |
+| MNiSW, „Doktorat wdrożeniowy” | doktorant pracuje w firmie i kształci się w szkole doktorskiej, a obok pensji dostaje stypendium ministra; dla firmy to sposób na badania we współpracy z uczelnią. Program ogłaszany co roku wiosną (2026: komunikat z 30.04.2026), rekrutację prowadzą szkoły doktorskie | https://www.gov.pl/web/nauka/doktoraty-wdrozeniowe---czyli-jak-wygrac-trzy-razy | bez przeglądarki |
+
+Część pieniędzy z programów regionalnych rozdają operatorzy projektów grantowych, często regionalne agencje rozwoju. Tak działają np. bony na usługi badawcze dla MŚP (na Dolnym Śląsku projekt „Innowacje dla STEP” Agencji Rozwoju Aglomeracji Wrocławskiej). Ogłoszenia są na stronie operatora i w portalu programu regionalnego.
+
 ## Pomoc bez opłat
 
 | Kto | W czym pomaga | Adres |

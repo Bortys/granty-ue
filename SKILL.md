@@ -1,6 +1,6 @@
 ---
 name: granty-ue
-description: "Szuka otwartych i zapowiedzianych naborów na granty i dotacje oraz przetargów publicznych: programy UE (Horyzont Europa z EIC i misjami, Cyfrowa Europa, LIFE, Innovation Fund, CEF, Kreatywna Europa, Erasmus+, CERV), obronność i dual use (EDF, EDIP, EUDIS, EIC STEP Defence, NATO DIANA), nabory kaskadowe, FENG, PARP, NCBR, KPO, programy regionalne, NFOŚiGW, ARiMR, NCN, NAWA, NIW, Fundusze EOG, Interreg, samorządy i fundacje, agendy badawcze (ESA, EUSPA, CERN, ESO) i przetargi (TED, portal UE, e-Zamówienia, PCP). Przeszukuje katalog Kierunek Grant oraz API portalu Funding & Tenders i TED, sprawdza warunki udziału i oddaje krótką listę z terminami, kwotami i linkami. Używaj zawsze, gdy ktoś pyta o granty, dotacje, nabory, konkursy, dofinansowanie, przetargi albo kontrakty z instytucjami, także bez tych słów: „gdzie dostać pieniądze na…”, „czy jest nabór na AI”, „dual use”, „EIC Accelerator”, „kontrakt z ESA”, „konkurs ofert dla NGO”. Nie pisze wniosku ani oferty."
+description: "Szuka otwartych i zapowiedzianych naborów na granty i dotacje oraz przetargów publicznych: programy UE (Horyzont Europa z EIC i misjami, Cyfrowa Europa, LIFE, Innovation Fund, CEF, Kreatywna Europa, Erasmus+, CERV), obronność i dual use (EDF, EDIP, EUDIS, EIC STEP Defence, NATO DIANA), nabory kaskadowe, FENG, PARP, NCBR, KPO, programy regionalne, NFOŚiGW, ARiMR, NCN, NAWA, NIW, PFR, PAIH, uczelnie, Fundusze EOG, Interreg, samorządy i fundacje, agendy badawcze (ESA, EUSPA, CERN, ESO) i przetargi (TED, portal UE, e-Zamówienia, PCP). Przeszukuje katalog Kierunek Grant oraz API portalu Funding & Tenders i TED, sprawdza warunki udziału i oddaje krótką listę z terminami, kwotami i linkami. Używaj zawsze, gdy ktoś pyta o granty, dotacje, nabory, konkursy, dofinansowanie, przetargi albo kontrakty z instytucjami, także bez tych słów: „gdzie dostać pieniądze na…”, „czy jest nabór na AI”, „dual use”, „EIC Accelerator”, „kontrakt z ESA”, „konkurs ofert dla NGO”. Nie pisze wniosku ani oferty."
 ---
 
 # Granty, dotacje i przetargi: UE, Polska, obronność
@@ -88,11 +88,16 @@ Przeczytaj `references/zrodla-pl.md` (programy, instytucje, regiony, samorządy,
 - organizacja pozarządowa: NIW, konkursy ofert samorządów i fundacje firmowe (np. PZU, ORLEN, PKO BP, Erste, Kaufland);
 - gmina i miasto: programy regionalne, NFOŚiGW z Funduszem Modernizacyjnym, Fundusze EOG, a za granicą European Urban Initiative, URBACT i Interreg Europe;
 - energetyka i przemysł energochłonny: Fundusz Modernizacyjny i Innovation Fund;
-- pracodawca, który chce przeszkolić siebie albo pracowników: Krajowy Fundusz Szkoleniowy w powiatowym urzędzie pracy (nabory lokalne, krótkie, według priorytetów na dany rok).
+- pracodawca, który chce przeszkolić siebie albo pracowników: Krajowy Fundusz Szkoleniowy w powiatowym urzędzie pracy (nabory lokalne, krótkie, według priorytetów na dany rok);
+- startup: programy PFR dla startupów (akceleracja, VC Connect) i fundusze z portfela PFR Ventures, oznaczone jako kapitał, a nie dotacja;
+- naukowiec, doktorant, student albo firma współpracująca z uczelnią: konkursy wewnętrzne uczelni (IDUB), centra transferu technologii, „Studenckie koła naukowe tworzą innowacje” i „Doktorat wdrożeniowy”;
+- MŚP wchodzące na rynki zagraniczne: Polskie Mosty Technologiczne w PAIH.
+
+PFR, uczelnie, PAIH i operatorów projektów grantowych sprawdzaj bezpośrednio na ich stronach (`zrodla-pl.md`, sekcja „PFR, uczelnie i agencje rozwoju”), a nie przez katalog Kierunek Grant.
 
 Wspólne międzynarodowe konkursy partnerstw europejskich (np. CETP w czystej energii, Water4All, sieci ERA-NET) ogłaszają same partnerstwa na swoich stronach, poza portalem UE. Projekt składa konsorcjum z kilku krajów, a każdego partnera finansuje agencja jego kraju, w Polsce NCBR albo NCN. Te nabory łatwo przeoczyć, a dla polskiej firmy albo uczelni bywają bliżej niż Horyzont.
 
-Część stron ładuje wyniki skryptem albo blokuje zwykłe pobieranie: wyszukiwarka dotacji, WOD2021, PARP, lista konkursów NCBR, NCN, NATO DIANA i Eureka. Czytaj je przez Claude in Chrome (`get_page_text`). Strony gov.pl i większość pozostałych da się czytać bez przeglądarki.
+Część stron ładuje wyniki skryptem albo blokuje zwykłe pobieranie: wyszukiwarka dotacji, WOD2021, PARP, lista konkursów NCBR, NCN, NATO DIANA, Eureka i strony PFR (grupapfr.pl, startup.pfr.pl, pfrventures.pl). Czytaj je przez Claude in Chrome (`get_page_text`). Strony gov.pl i większość pozostałych da się czytać bez przeglądarki.
 
 Patrz też na harmonogramy naborów programów. Nabór zapowiedziany na za dwa miesiące bywa cenniejszy od otwartego, który zamyka się za tydzień.
 
@@ -195,5 +200,5 @@ Na końcu napisz wprost, że żadne wyszukiwanie nie łapie wszystkiego. Zapropo
 - Nie rejestruj organizacji, nie zakładaj kont, nie składaj wniosków ani ofert i nie pisz do instytucji ani potencjalnych partnerów. Przygotowujesz, a decyduje i wysyła użytkownik.
 - Ostrzegaj przed pośrednikami, którzy biorą opłatę z góry albo procent od dotacji. Bezpłatną pomoc dają Krajowy Punkt Kontaktowy (Horyzont Europa), punkty kontaktowe programów w portalu UE i Punkty Informacyjne Funduszy Europejskich.
 - To nie jest porada prawna ani finansowa. Przy pomocy publicznej, umowach, kontroli eksportu i koncesjach wskaż, co sprawdzić i u kogo, a nie oceniaj sam zgodności z prawem.
-- Kredyt, gwarancja albo inwestycja kapitałowa (np. NATO Innovation Fund, EIC STEP Scale Up Defence) to nie grant. Kredyt z premią, w której dotacja spłaca część kapitału (np. kredyt BGK na produkty podwójnego zastosowania), też nie jest czystą dotacją, bo najpierw trzeba dostać kredyt w banku. Jeśli je pokazujesz, oznacz to wprost.
+- Kredyt, gwarancja albo inwestycja kapitałowa (np. NATO Innovation Fund, EIC STEP Scale Up Defence, fundusze z portfela PFR Ventures) to nie grant. Kredyt z premią, w której dotacja spłaca część kapitału (np. kredyt BGK na produkty podwójnego zastosowania), też nie jest czystą dotacją, bo najpierw trzeba dostać kredyt w banku. Jeśli je pokazujesz, oznacz to wprost.
 - Pisz po polsku, prosto i od korzyści wnioskodawcy. Nazwy programów, identyfikatory tematów i tytuły naborów zostaw w oryginale, a tytuły angielskie streszczaj po polsku obok.
