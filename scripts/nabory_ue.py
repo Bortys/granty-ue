@@ -86,17 +86,30 @@ def _czas_api(d):
     return d.strftime("%Y-%m-%dT%H:%M:%S.000+0000")
 
 
-def _data(tekst):
+def _data_z_precyzja(tekst):
+    """Parsuje datę i zachowuje informację, czy źródło podało samą datę."""
     if not tekst:
         return None
     tekst = tekst.replace("Z", "+0000")
-    for wzor in ("%Y-%m-%dT%H:%M:%S.%f%z", "%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%d"):
+    formaty = (
+        ("%Y-%m-%dT%H:%M:%S.%f%z", False),
+        ("%Y-%m-%dT%H:%M:%S%z", False),
+        ("%Y-%m-%d", True),
+    )
+    for wzor, tylko_data in formaty:
         try:
             d = dt.datetime.strptime(tekst, wzor)
-            return d if d.tzinfo else d.replace(tzinfo=dt.timezone.utc)
+            d = d if d.tzinfo else d.replace(tzinfo=dt.timezone.utc)
+            return d, tylko_data
         except ValueError:
             continue
     return None
+
+
+def _data(tekst):
+    """Zwraca datetime, zachowując dotychczasowy interfejs dla pozostałych pól."""
+    wynik = _data_z_precyzja(tekst)
+    return wynik[0] if wynik else None
 
 
 def _pokaz_date(d, z_godzina=True):
@@ -108,10 +121,12 @@ def _pokaz_date(d, z_godzina=True):
     return d.strftime("%Y-%m-%d %H:%M")
 
 
-def _czy_termin_aktualny(termin, teraz):
-    """Treat midnight-only deadlines as date-only values valid through that date."""
-    if (termin.hour, termin.minute, termin.second, termin.microsecond) == (0, 0, 0, 0):
-        return termin.date() >= teraz.date()
+def _czy_termin_aktualny(termin, teraz, tylko_data=False):
+    """Sprawdza termin; sama data pozostaje ważna do końca dnia UTC."""
+    if tylko_data:
+        dzis_utc = teraz.astimezone(dt.timezone.utc).date()
+        data_utc = termin.astimezone(dt.timezone.utc).date()
+        return data_utc >= dzis_utc
     return termin >= teraz
 
 
@@ -254,8 +269,15 @@ def rekord(wynik, teraz, programy):
         tytul = _pole(m, "callTitle") or tytul
         organizator = _pole(m, "projectAcronym")
     zamawiajacy = _zamawiajacy(m) if typ == "0" else None
-    terminy = sorted(d for d in (_data(x) for x in (m.get("deadlineDate") or [])) if d)
-    przyszle = [d for d in terminy if _czy_termin_aktualny(d, teraz)]
+    terminy = [
+        parsed for parsed in (_data_z_precyzja(x) for x in (m.get("deadlineDate") or []))
+        if parsed
+    ]
+    terminy.sort(key=lambda parsed: parsed[0])
+    przyszle = [
+        termin for termin, tylko_data in terminy
+        if _czy_termin_aktualny(termin, teraz, tylko_data)
+    ]
     kody = m.get("frameworkProgramme") or []
     program = ", ".join(programy.get(k, (k, k, 0))[0] for k in kody) or ("zamówienie UE" if typ == "0" else "?")
     budzet = _budzet_tematu(m, identyfikator) if typ == "1" else []
@@ -288,7 +310,7 @@ def rekord(wynik, teraz, programy):
         "typ_dzialania": _typy_dzialan(m.get("typesOfAction")),
         "otwarcie": _pokaz_date(_data(_pole(m, "startDate")), False),
         "nastepny_termin": _pokaz_date(przyszle[0]) if przyszle else None,
-        "wszystkie_terminy": [_pokaz_date(d) for d in terminy],
+        "wszystkie_terminy": [_pokaz_date(d) for d, _ in terminy],
         "model_skladania": _pole(m, "deadlineModel"),
         "na_projekt": kwota,
         "budzet": budzet,

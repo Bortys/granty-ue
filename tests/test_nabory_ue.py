@@ -92,6 +92,63 @@ class DeadlineHandlingTests(unittest.TestCase):
         self.assertEqual(record["nastepny_termin"], "2026-11-16")
         self.assertIsNotNone(record["_termin_sort"])
 
+    def test_full_timestamp_at_utc_midnight_expires_at_that_instant(self):
+        now = dt.datetime(2026, 11, 17, 23, 50, tzinfo=UTC)
+        result = {
+            "url": "https://example.test/midnight-timestamp",
+            "metadata": {
+                "type": "1",
+                "identifier": "HORIZON-MIDNIGHT-UTC-01",
+                "title": "Midnight timestamp",
+                "status": "31094502",
+                "deadlineDate": ["2026-11-17T00:00:00+0000"],
+                "frameworkProgramme": [],
+            },
+        }
+
+        record = nabory_ue.rekord(result, now, {})
+
+        self.assertIsNone(record["nastepny_termin"])
+        self.assertIsNone(record["_termin_sort"])
+
+    def test_full_timestamp_at_midnight_with_offset_uses_its_instant(self):
+        now = dt.datetime(2026, 11, 16, 22, 30, tzinfo=UTC)
+        result = {
+            "url": "https://example.test/midnight-offset-timestamp",
+            "metadata": {
+                "type": "1",
+                "identifier": "HORIZON-MIDNIGHT-OFFSET-01",
+                "title": "Midnight timestamp with offset",
+                "status": "31094502",
+                "deadlineDate": ["2026-11-17T00:00:00+0200"],
+                "frameworkProgramme": [],
+            },
+        }
+
+        record = nabory_ue.rekord(result, now, {})
+
+        self.assertIsNone(record["nastepny_termin"])
+        self.assertIsNone(record["_termin_sort"])
+
+    def test_date_only_deadline_compares_calendar_day_in_utc(self):
+        now = dt.datetime(2026, 11, 17, 0, 30, tzinfo=dt.timezone(dt.timedelta(hours=2)))
+        result = {
+            "url": "https://example.test/date-only-timezone",
+            "metadata": {
+                "type": "1",
+                "identifier": "HORIZON-DATE-ONLY-TZ-01",
+                "title": "Date-only timezone",
+                "status": "31094502",
+                "deadlineDate": ["2026-11-16"],
+                "frameworkProgramme": [],
+            },
+        }
+
+        record = nabory_ue.rekord(result, now, {})
+
+        self.assertEqual(record["nastepny_termin"], "2026-11-16")
+        self.assertIsNotNone(record["_termin_sort"])
+
     def test_date_only_deadline_from_previous_day_is_expired(self):
         now = dt.datetime(2026, 11, 16, 12, 0, tzinfo=UTC)
         result = {
