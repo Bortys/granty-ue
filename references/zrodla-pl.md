@@ -107,5 +107,5 @@ Fundacje firmowe ogłaszają rundy grantowe na własnych stronach. Aktualność 
 
 ## Czego tu nie ma
 
-- Programy międzynarodowe spoza portalu UE (Fundusze EOG, Interreg, Eureka, EIT, ESA, Fundusz Wyszehradzki) są w `zrodla-zagraniczne.md`, a obronność w `obronnosc.md`.
-- Przetargi publiczne (TED, Baza Konkurencyjności) to zamówienia, a nie dotacje. Ten skill ich nie obsługuje.
+- Programy międzynarodowe spoza portalu UE (Fundusze EOG, Interreg, Eureka, EIT, ESA, Fundusz Wyszehradzki) są w `zrodla-zagraniczne.md`, obronność w `obronnosc.md`, a kontrakty agend badawczych (ESA, CERN, ESO, EUSPA) w `agendy-i-zamowienia.md`.
+- Przetargi publiczne (TED, Biuletyn Zamówień Publicznych, Baza Konkurencyjności) to zamówienia, a nie dotacje. Są w `agendy-i-zamowienia.md`.

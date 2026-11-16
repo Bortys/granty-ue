@@ -33,6 +33,7 @@ Adresy i fakty sprawdzone 16.11.2026. Terminy i kwoty sprawdzaj zawsze w bieżą
 | NATO DIANA | akcelerator dla firm z państw NATO rozwijających technologie podwójnego zastosowania, nabory „challenges” zwykle raz w roku | https://www.diana.nato.int/challenges.html | blokuje zwykłe pobieranie, tylko przez Chrome |
 | NATO SPS (Science for Peace and Security) | granty na badania, wydarzenia i szkolenia w dziedzinie bezpieczeństwa, z partnerami z państw partnerskich NATO | https://www.nato.int/en/about-us/organization/nato-structure/science-for-peace-and-security-hub | |
 | NATO Innovation Fund | fundusz venture capital, nie grant | https://www.nif.fund/ | |
+| Przetargi EDA i agend UE | zamówienia Europejskiej Agencji Obrony i innych agencji UE, często umowy ramowe | `nabory_ue.py szukaj --typ przetargi` albo `przetargi_ted.py --zamawiajacy "European Defence Agency" --wszystkie-kraje` |  |
 | Punkty kontaktowe EDF | bezpłatne doradztwo przy wnioskach do EDF | https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/support/ncp | w wyszukiwarce wybierz program EDF i Polskę |
 
 ## W Polsce
@@ -44,6 +45,7 @@ Adresy i fakty sprawdzone 16.11.2026. Terminy i kwoty sprawdzaj zawsze w bieżą
 | FNP First Team (FENG 2.2), nabór dual use | zespoły badawcze w organizacjach badawczych, technologie podwójnego zastosowania | https://www.fnp.org.pl/component/fnp_programs/program/first-team-feng/nabor-2-2026 |
 | NCBR | konkursy B+R, w tym obronne i ścieżki STEP | https://www.gov.pl/web/ncbr/platforma-konkursowa/ |
 | Programy regionalne | działania dual use i przemysł obronny, 16.11.2026 m.in. w podlaskim, śląskim, opolskim, łódzkim, a w małopolskim, lubuskim, zachodniopomorskim i kujawsko-pomorskim kompetencje i gotowość cywilna | katalog: `katalog_grantow.py --temat Bezpieczeństwo --zasieg Regionalne` |
+| Agencja Uzbrojenia | zamówienia sprzętu wojskowego i usług dla Sił Zbrojnych RP, inicjowanie prac B+R, offset; to zamówienia, nie dotacje | przetargi powyżej progów w TED: `przetargi_ted.py --zamawiajacy "Agencja Uzbrojenia"` albo `--cpv 35`; więcej w `agendy-i-zamowienia.md` |
 | BGK (FENG 2.33) | kredyt na wytwarzanie produktów podwójnego zastosowania z premią, która refunduje część kapitału kredytu; najpierw kredyt w banku, więc to nie czysta dotacja | https://www.bgk.pl/produkty/kredyt-na-wytwarzanie-produktow-podwojnego-zastosowania/ |
 
 ## Warunki, które w obronności odsiewają najczęściej

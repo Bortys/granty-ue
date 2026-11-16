@@ -14,6 +14,7 @@ Przykłady:
   python3 nabory_ue.py szukaj --priorytet AI --status otwarte --termin-do 2027-03-31
   python3 nabory_ue.py szukaj --typ kaskadowe --tekst "SME cybersecurity"
   python3 nabory_ue.py szukaj --program EDF ISF        (obronność: EDF z tematami EDIP, Fundusz Bezpieczeństwa Wewnętrznego)
+  python3 nabory_ue.py szukaj --typ przetargi --tekst satellite   (zamówienia Komisji i agencji UE, np. EDA, EUSPA, JRC)
   python3 nabory_ue.py temat HORIZON-CL4-2027-01-DIGITAL-EMERGING-01
   python3 nabory_ue.py programy
 """
@@ -37,8 +38,9 @@ KLUCZ = "SEDIA"
 UA = "granty-ue/1.0 (skill Claude; python-urllib)"
 STRONA = 100  # API nie oddaje więcej niż 100 wyników na stronę
 
-TYPY = {"granty": "1", "kaskadowe": "8", "zewnetrzne": "2"}  # 0 to przetargi, pomijamy
-TYP_NAZWA = {"1": "grant", "8": "kaskadowy", "2": "zewnętrzny"}
+TYPY = {"granty": "1", "kaskadowe": "8", "zewnetrzne": "2", "przetargi": "0"}
+TYPY_NABOROW = ["1", "8", "2"]  # przetargi nie mają programu, więc nie wchodzą do słownika programów
+TYP_NAZWA = {"1": "grant", "8": "kaskadowy", "2": "zewnętrzny", "0": "przetarg"}
 STATUSY = {"zapowiedziane": "31094501", "otwarte": "31094502"}
 STATUS_NAZWA = {"31094501": "zapowiedziany", "31094502": "otwarty", "31094503": "zamknięty"}
 
@@ -120,7 +122,7 @@ def _typy_dzialan(lista):
 def slowniki(zapytanie=None):
     """Programy i priorytety z faset API: {kod: (skrót, nazwa, liczba)}."""
     if zapytanie is None:
-        zapytanie = {"bool": {"must": [{"terms": {"type": list(TYPY.values())}}]}}
+        zapytanie = {"bool": {"must": [{"terms": {"type": TYPY_NABOROW}}]}}
     dane = _post("facet", {"text": "***"}, {"query": zapytanie, "languages": ["en"]})
     wynik = {}
     for faseta in dane.get("facets", []):
@@ -219,6 +221,22 @@ def _na_projekt(b):
     return f"{_kwota(lo)} EUR" if lo == hi else f"{_kwota(lo)}–{_kwota(hi)} EUR"
 
 
+def _zamawiajacy(m):
+    """Przetarg: nazwy instytucji z cftLeadContractingAuthorityCode, najpierw instytucja prowadząca."""
+    surowe = _pole(m, "cftLeadContractingAuthorityCode")
+    try:
+        lista = json.loads(surowe) if surowe else []
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(lista, list):  # bywa "null"
+        return None
+    lista = sorted((x for x in lista if isinstance(x, dict)), key=lambda x: not x.get("isLeadAuthority"))
+    nazwy = list(dict.fromkeys((x.get("name") or "").strip() for x in lista if x.get("name")))
+    if not nazwy:
+        return None
+    return nazwy[0] + (f" i {len(nazwy) - 1} innych" if len(nazwy) > 1 else "")
+
+
 def rekord(wynik, teraz, programy):
     m = wynik.get("metadata", {})
     typ = _pole(m, "type")
@@ -228,13 +246,18 @@ def rekord(wynik, teraz, programy):
     if typ == "8":  # nabór kaskadowy ogłasza projekt UE, temat to projekt-matka
         tytul = _pole(m, "callTitle") or tytul
         organizator = _pole(m, "projectAcronym")
+    zamawiajacy = _zamawiajacy(m) if typ == "0" else None
     terminy = sorted(d for d in (_data(x) for x in (m.get("deadlineDate") or [])) if d)
     przyszle = [d for d in terminy if d >= teraz]
     kody = m.get("frameworkProgramme") or []
-    program = ", ".join(programy.get(k, (k, k, 0))[0] for k in kody) or "?"
+    program = ", ".join(programy.get(k, (k, k, 0))[0] for k in kody) or ("zamówienie UE" if typ == "0" else "?")
     budzet = _budzet_tematu(m, identyfikator) if typ == "1" else []
     if typ == "1":
         kwota = _na_projekt(budzet)
+    elif typ == "0":  # przetarg: szacunkowa wartość całego zamówienia, nie kwota dla jednego wykonawcy
+        b = _kwota(_pole(m, "cftEstimatedOverallContractAmount"))
+        waluta = _pole(m, "cftEstimatedOverallContractCurrency") or ""
+        kwota = f"{b} {waluta} (szacunkowa wartość zamówienia)".replace("  ", " ") if b else None
     else:
         b = _kwota(_pole(m, "budget"))
         kwota = f"{b} {_pole(m, 'currency') or ''} (cały nabór)".replace("  ", " ") if b else None
@@ -253,6 +276,8 @@ def rekord(wynik, teraz, programy):
         "nabor": _pole(m, "callIdentifier"),
         "nazwa_naboru": _pole(m, "callTitle") if typ == "1" else None,
         "organizator_kaskady": organizator,
+        "zamawiajacy": zamawiajacy,
+        "cpv": (m.get("mainCpv") or []) if typ == "0" else [],
         "typ_dzialania": _typy_dzialan(m.get("typesOfAction")),
         "otwarcie": _pokaz_date(_data(_pole(m, "startDate")), False),
         "nastepny_termin": _pokaz_date(przyszle[0]) if przyszle else None,
@@ -296,7 +321,8 @@ def szukaj(arg):
 
     # API szuka dowolnego ze słów i nie zna fraz w cudzysłowie. Słowa z --fraza idą do API,
     # żeby zawęzić kandydatów, a całą frazę sprawdzamy niżej w treści tematu.
-    tekst = " ".join(x for x in [arg.tekst, " ".join(arg.fraza or [])] if x).strip() or "***"
+    tekst = " ".join(arg.tekst or []).strip()
+    tekst = " ".join(x for x in [tekst, " ".join(arg.fraza or [])] if x).strip() or "***"
     sortuj = arg.sortuj or ("trafnosc" if tekst != "***" else "termin")
     pola = {"query": zapytanie, "languages": ["en"]}
     if sortuj == "termin":
@@ -336,7 +362,7 @@ def szukaj(arg):
     naglowek = {
         "zrodlo": "API wyszukiwania Funding & Tenders Portal (api.tech.ec.europa.eu, klucz SEDIA)",
         "pobrano": dt.datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "zapytanie": {"tekst": arg.tekst, "fraza": arg.fraza, "prefiks": arg.prefiks, "program": arg.program,
+        "zapytanie": {"tekst": " ".join(arg.tekst) if arg.tekst else None, "fraza": arg.fraza, "prefiks": arg.prefiks, "program": arg.program,
                       "priorytet": arg.priorytet, "typ": arg.typ, "status": arg.status, "termin_do": arg.termin_do},
         "sortowanie": sortuj,
         "api_zwrocilo": lacznie,
@@ -354,7 +380,11 @@ def szukaj(arg):
           f"pokazuję {len(pokazane)}, kolejność: {'najbliższy termin' if sortuj == 'termin' else 'trafność'}.")
     if naglowek["uciete_przez_max_pobran"]:
         print(f"Uwaga: pobrano tylko {arg.max_pobran} rekordów. Zawęź zapytanie albo podnieś --max-pobran.")
-    print("Godzinę terminu potwierdź na stronie tematu: portal podaje czas brukselski.\n")
+    print("Godzinę terminu potwierdź na stronie tematu: portal podaje czas brukselski.")
+    if "przetargi" in arg.typ:
+        print("Przetarg to zamówienie: umowa i wynagrodzenie za wykonanie, nie dotacja. Ofertę składa się "
+              "przez eSubmission po zapoznaniu się z dokumentami zamówienia.")
+    print()
     if not pokazane:
         print("Brak naborów z przyszłym terminem dla tego zapytania.")
         return
@@ -366,6 +396,8 @@ def szukaj(arg):
             tytul = tytul[:87] + "..."
         if r["organizator_kaskady"]:
             tytul += f" (projekt {r['organizator_kaskady']})"
+        if r["zamawiajacy"]:
+            tytul += f" (zamawiający: {r['zamawiajacy']})"
         typ = r["typ_dzialania"] or r["typ"] if r["typ"] == "grant" else r["typ"]
         if len(typ) > 60:
             typ = typ[:57] + "..."
@@ -416,12 +448,19 @@ def temat(arg):
             print(f"Nabór: {r['nabor']}" + (f" ({r['nazwa_naboru']})" if r["nazwa_naboru"] else ""))
         if r["organizator_kaskady"]:
             print(f"Nabór kaskadowy ogłasza projekt: {r['organizator_kaskady']}")
+        if r["zamawiajacy"]:
+            print(f"Zamawiający: {r['zamawiajacy']}; CPV: {', '.join(r['cpv']) or '?'}")
         print(f"Otwarcie: {r['otwarcie']}; terminy: {', '.join(r['wszystkie_terminy']) or 'brak'}; "
               f"następny: {r['nastepny_termin'] or 'żaden (termin minął)'}; model: {r['model_skladania'] or '?'}")
-        print(f"Typ działania: {r['typ_dzialania'] or '?'}; na projekt: {r['na_projekt'] or 'do sprawdzenia'}")
+        if r["typ"] == "przetarg":
+            print(f"Wartość: {r['na_projekt'] or 'brak w danych portalu'}. To zamówienie, nie dotacja: "
+                  "dokumenty, pytania i oferta przez eSubmission.")
+        else:
+            print(f"Typ działania: {r['typ_dzialania'] or '?'}; na projekt: {r['na_projekt'] or 'do sprawdzenia'}")
         if r["priorytety"]:
             print(f"Priorytety przekrojowe: {', '.join(r['priorytety'])}")
-        print(f"Szukanie partnerów w portalu: {'tak' if r['szukanie_partnerow'] else 'nie albo brak danych'}")
+        if r["typ"] != "przetarg":
+            print(f"Szukanie partnerów w portalu: {'tak' if r['szukanie_partnerow'] else 'nie albo brak danych'}")
         print(f"Link: {r['link']}\n")
         if r["budzet"]:
             print("## Budżet tematu\n")
@@ -444,7 +483,7 @@ def temat(arg):
 def programy_cmd(arg):
     teraz = dt.datetime.now(dt.timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
     zapytanie = {"bool": {"must": [
-        {"terms": {"type": list(TYPY.values())}},
+        {"terms": {"type": TYPY_NABOROW}},
         {"terms": {"status": list(STATUSY.values())}},
         {"range": {"deadlineDate": {"gte": _czas_api(teraz)}}},
     ]}}
@@ -466,7 +505,7 @@ def main():
     sub = p.add_subparsers(dest="polecenie", required=True)
 
     s = sub.add_parser("szukaj", help="otwarte i zapowiedziane nabory z przyszłym terminem")
-    s.add_argument("--tekst", help="słowa kluczowe po angielsku; API szuka dowolnego z nich w całej treści tematu")
+    s.add_argument("--tekst", nargs="+", help="słowa kluczowe po angielsku; API szuka dowolnego z nich w całej treści tematu")
     s.add_argument("--fraza", nargs="+", help="frazy, które muszą wystąpić w tytule albo opisie, np. \"language model\"")
     s.add_argument("--prefiks", nargs="+", help="początek identyfikatora, np. HORIZON-EIC albo HORIZON-CL4-2027")
     s.add_argument("--sortuj", choices=["termin", "trafnosc"],
@@ -475,7 +514,8 @@ def main():
     s.add_argument("--priorytet", nargs="+", help="priorytety przekrojowe, np. AI DigitalAgenda SocInnov")
     s.add_argument("--typ", nargs="+", choices=list(TYPY), default=["granty", "kaskadowe"],
                    help="granty = tematy programów UE, kaskadowe = małe nabory ogłaszane przez projekty UE, "
-                        "zewnetrzne = pomoc zewnętrzna UE (EuropeAid)")
+                        "zewnetrzne = pomoc zewnętrzna UE (EuropeAid), przetargi = zamówienia Komisji i agencji UE "
+                        "(umowa za wynagrodzenie, nie dotacja)")
     s.add_argument("--status", nargs="+", choices=list(STATUSY), default=["otwarte", "zapowiedziane"])
     s.add_argument("--termin-do", help="tylko nabory z terminem najpóźniej tego dnia, RRRR-MM-DD")
     s.add_argument("--limit", type=int, default=40, help="ile pozycji pokazać (domyślnie 40)")
@@ -484,7 +524,7 @@ def main():
     s.set_defaults(fn=szukaj)
 
     t = sub.add_parser("temat", help="szczegóły tematu po identyfikatorze")
-    t.add_argument("identyfikator", help="np. HORIZON-CL4-2027-01-DIGITAL-EMERGING-01")
+    t.add_argument("identyfikator", help="np. HORIZON-CL4-2027-01-DIGITAL-EMERGING-01 albo identyfikator przetargu z kolumny Identyfikator")
     t.add_argument("--pelny", action="store_true", help="pełny opis i warunki bez ucinania")
     t.add_argument("--json", action="store_true")
     t.set_defaults(fn=temat)

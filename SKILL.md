@@ -1,9 +1,9 @@
 ---
 name: granty-ue
-description: "Szuka otwartych i zapowiedzianych naborów na granty i dotacje: programy UE (Horyzont Europa z EIC i misjami, Cyfrowa Europa, LIFE, Innovation Fund, CEF, Kreatywna Europa, Erasmus+, CERV), obronność i podwójne zastosowanie (EDF, EDIP, EUDIS, EIC STEP Defence, NATO DIANA), nabory kaskadowe, FENG, PARP, NCBR, KPO, programy regionalne, NFOŚiGW, ARiMR, NCN, NAWA, NIW, Fundusze EOG, Interreg, konkursy samorządów i fundacji. Przeszukuje katalog Kierunek Grant i oficjalne API portalu Funding & Tenders, czyta strony instytucji, sprawdza warunki udziału i oddaje krótką listę z terminami, kwotami i linkami. Używaj zawsze, gdy ktoś pyta o granty, dotacje, nabory, konkursy, dofinansowanie albo pieniądze na projekt badawczy, innowacyjny, cyfrowy, obronny, społeczny lub lokalny, także bez słowa „grant”: „gdzie dostać pieniądze na…”, „czy jest nabór na AI”, „dual use”, „EIC Accelerator”, „ścieżka SMART”, „konkurs ofert dla NGO”. Nie do przetargów publicznych (TED) ani do samego pisania wniosku."
+description: "Szuka otwartych i zapowiedzianych naborów na granty i dotacje oraz przetargów publicznych: programy UE (Horyzont Europa z EIC i misjami, Cyfrowa Europa, LIFE, Innovation Fund, CEF, Kreatywna Europa, Erasmus+, CERV), obronność i dual use (EDF, EDIP, EUDIS, EIC STEP Defence, NATO DIANA), nabory kaskadowe, FENG, PARP, NCBR, KPO, programy regionalne, NFOŚiGW, ARiMR, NCN, NAWA, NIW, Fundusze EOG, Interreg, samorządy i fundacje, agendy badawcze (ESA, EUSPA, CERN, ESO) i przetargi (TED, portal UE, e-Zamówienia, PCP). Przeszukuje katalog Kierunek Grant oraz API portalu Funding & Tenders i TED, sprawdza warunki udziału i oddaje krótką listę z terminami, kwotami i linkami. Używaj zawsze, gdy ktoś pyta o granty, dotacje, nabory, konkursy, dofinansowanie, przetargi albo kontrakty z instytucjami, także bez tych słów: „gdzie dostać pieniądze na…”, „czy jest nabór na AI”, „dual use”, „EIC Accelerator”, „kontrakt z ESA”, „konkurs ofert dla NGO”. Nie pisze wniosku ani oferty."
 ---
 
-# Granty i dotacje: UE, Polska, obronność
+# Granty, dotacje i przetargi: UE, Polska, obronność
 
 Pieniądze na projekty płyną kilkoma drogami i każda ma inne źródło danych:
 
@@ -11,6 +11,7 @@ Pieniądze na projekty płyną kilkoma drogami i każda ma inne źródło danych
 - **Fundusze dzielone z Polską i pieniądze krajowe:** FENG, FEPW, FERC, FERS, FEnIKS, 16 programów regionalnych, KPO, a do tego NCBR, NCN, NAWA, FNP, NFOŚiGW z funduszami wojewódzkimi, ARiMR, NIW i ministerstwa. Dla polskiej firmy, uczelni albo organizacji to zwykle większa część dostępnych pieniędzy.
 - **Źródła lokalne i prywatne:** konkursy ofert gmin i powiatów, fundacje firm, programy dla organizacji pozarządowych.
 - **Programy międzynarodowe spoza portalu UE:** Fundusze EOG i Norweskie, Interreg, Eureka z Eurostars, wspólnoty EIT, ESA, Fundusz Wyszehradzki i NATO (DIANA, SPS).
+- **Kontrakty zamiast dotacji:** agendy badawcze (ESA, EUSPA, CERN, ESO, F4E) i zamawiający publiczni w Polsce i w instytucjach UE kupują usługi, sprzęt i prace badawczo-rozwojowe. Przetargi powyżej progów unijnych są w TED, a `scripts/przetargi_ted.py` czyta jego API. Przetarg to nie dotacja, więc pokazuj go osobno.
 
 Przeszukaj wszystkie drogi, które pasują do wnioskodawcy, chyba że ktoś wyraźnie zawęzi pytanie. Jeśli pominiesz polską albo lokalną stronę, odpowiedź będzie wyglądała na pełną, a nie będzie.
 
@@ -25,7 +26,8 @@ Bez tego nie da się ocenić, czy nabór w ogóle pasuje. Weź z rozmowy, co si�
 - kiedy pieniądze są potrzebne;
 - czy wnioskodawca chce iść sam, czy może wejść do konsorcjum;
 - u naukowca rok uzyskania doktoratu, bo od stażu po doktoracie zależy dostęp do ERC, SONATY, SONATINY i FIRST TEAM;
-- czy projekt dotyczy obronności, bezpieczeństwa, cyberbezpieczeństwa, kosmosu albo technologii podwójnego zastosowania (dual use). Jeśli tak, przejdź też przez krok 5.
+- czy projekt dotyczy obronności, bezpieczeństwa, cyberbezpieczeństwa, kosmosu albo technologii podwójnego zastosowania (dual use). Jeśli tak, przejdź też przez krok 5;
+- czy chodzi tylko o dotacje, czy także o kontrakty: sprzedaż usług, sprzętu albo prac badawczo-rozwojowych agendom badawczym i zamawiającym publicznym. Jeśli tak albo jeśli pytanie dotyczy ESA, CERN czy przetargów, przejdź też przez krok 6.
 
 Nie zgaduj formy prawnej ani wielkości firmy, bo od nich zależy połowa warunków. Jeśli nie możesz dopytać, zapisz przyjęte założenia na początku odpowiedzi.
 
@@ -44,7 +46,7 @@ python3 scripts/katalog_grantow.py --raporty
 - **Tematy w katalogu:** B+R i innowacje, Cyfryzacja i AI, Bezpieczeństwo, Kosmos, Energia i klimat, Środowisko, Zdrowie, Edukacja i kompetencje, Kultura i turystyka, Sprawy społeczne, Rozwój firmy, Infrastruktura i transport. Tytuły są po polsku, więc `--tekst` pisz po polsku. Skrótu „AI” nie szukaj tekstem, bo pasuje do wielu słów. Użyj `--temat Cyfryzacja`.
 - **Województwo** mają tylko nabory regionalne. Dla firmy z regionu zrób dwa zapytania: regionalne z województwem i krajowe.
 - **Katalog to trop.** Termin, kwotę i warunki potwierdzasz w ogłoszeniu pod linkiem. Skrypt ostrzega, gdy stan katalogu ma więcej niż tydzień. `--raporty` daje linki do oficjalnych miesięcznych zestawień naborów (XLSX) z Portalu Funduszy Europejskich, przydatnych do kontroli.
-- **Brak naboru w katalogu nie znaczy, że go nie ma.** Dlatego są kroki 3–5.
+- **Brak naboru w katalogu nie znaczy, że go nie ma.** Dlatego są kroki 3–6.
 
 ## Krok 3. Nabory UE ze skryptu
 
@@ -100,11 +102,40 @@ Gdy projekt dotyka obronności, bezpieczeństwa, cyberbezpieczeństwa, kosmosu a
 
 - **Horyzont Europa i EIT finansują wyłącznie zastosowania cywilne.** Technologie wojskowe idą przez EDF z EDIP. Od 17.06.2026 EIC finansuje też technologie obronne i dual use: EIC Accelerator przyjmuje projekty dual use na warunkach z programu pracy EIC. EIC STEP Scale Up Defence to wyłącznie inwestycja kapitałowa 10–30 mln EUR dla firm z rundą od 50 do 150 mln EUR, a nie dotacja.
 - **W portalu UE:** `szukaj --program EDF ISF` (EDF obejmuje też tematy EDIP z identyfikatorami `EDF-EDIP` i nabory kaskadowe dla MŚP), `szukaj --prefiks HORIZON-CL3` (bezpieczeństwo cywilne), `szukaj --prefiks DIGITAL-ECCC` (cyberbezpieczeństwo, w tym temat „Dual-use technologies”), `szukaj --prefiks HORIZON-EIC` (EIC STEP Defence).
-- **Kosmos:** `katalog_grantow.py --temat Kosmos`, a za granicą ESA i POLSA (`zrodla-zagraniczne.md`).
+- **Kosmos:** `katalog_grantow.py --temat Kosmos`, a za granicą ESA i POLSA (`zrodla-zagraniczne.md`). Kontrakty ESA i EUSPA, ESA BIC i CASSINI są w kroku 6.
 - **Poza portalem:** EUDIS (akcelerator, hackathony, wyzwania technologiczne), NATO DIANA, NATO SPS. W Polsce: FENG (STEP w obronności, Granty na Eurogranty na przygotowanie wniosku do EDF i EDIP, FNP First Team dla dual use), NCBR i programy regionalne z działaniami dual use. W katalogu znajdziesz je przez `--temat Bezpieczeństwo`.
-- **Warunki są ostrzejsze niż w zwykłych grantach:** kontrola właścicielska, konsorcjum z co najmniej trzech państw w EDF, informacje niejawne i poświadczenia bezpieczeństwa, kontrola eksportu, koncesja na technologie wojskowe. Sprawdź je w kroku 6, zanim cokolwiek polecisz.
+- **Zamówienia wojskowe** prowadzi Agencja Uzbrojenia. Jej przetargi powyżej progów są w TED (krok 6).
+- **Warunki są ostrzejsze niż w zwykłych grantach:** kontrola właścicielska, konsorcjum z co najmniej trzech państw w EDF, informacje niejawne i poświadczenia bezpieczeństwa, kontrola eksportu, koncesja na technologie wojskowe. Sprawdź je w kroku 7, zanim cokolwiek polecisz.
 
-## Krok 6. Warunki udziału, zanim cokolwiek polecisz
+## Krok 6. Agendy badawcze i przetargi
+
+Gdy wnioskodawca może sprzedawać usługi, sprzęt albo prace badawczo-rozwojowe albo pyta wprost o ESA, CERN, przetargi czy zamówienia, przeczytaj `references/agendy-i-zamowienia.md`. Przetarg to nie dotacja: zamawiający płaci za wykonanie tego, co opisał, a wygrywa oferta z najlepszą ceną i jakością. Pokazuj przetargi w osobnej tabeli i oznacz je.
+
+- **Pieniądze ESA dla firm:** ESA Space Solutions daje dofinansowanie bez oddawania udziałów, od 60 tys. do ponad 3 mln EUR: Kick-starts (nabór zawsze otwarty), studia wykonalności, projekty pilotażowe, Growth Projects i nabory tematyczne. Listę otwartych naborów czytaj na https://business.esa.int/funding, bez przeglądarki. Pełny wniosek wymaga pisemnej zgody polskiej delegacji (Written Authorisation), więc kontakt z delegacją wpisz do „Od czego zacząć”. Przez Chrome trzeba czytać tylko esa-star.
+- **Agendy i organizacje badawcze** (ESA, EUSPA, CERN, ESO, F4E, ECMWF) kupują głównie od firm z państw członkowskich. Polska należy do ESA, CERN i ESO. Pierwszym krokiem jest rejestracja dostawcy (esa-star w ESA, bazy dostawców CERN i ESO), bo część zaproszeń trafia tylko do zarejestrowanych firm. Startup kosmiczny może też iść do ośrodka inkubacji ESA BIC (50 tys. EUR bez oddawania udziałów) albo do wyzwań i akceleratora CASSINI.
+- **Przetargi Komisji i agencji UE** (np. EDA, EUSPA, SatCen, JRC) są w portalu UE:
+
+  ```bash
+  python3 scripts/nabory_ue.py szukaj --typ przetargi --tekst satellite
+  python3 scripts/nabory_ue.py temat bb3c4eb1-173b-4e61-986b-5b49fbf1ec12-CN
+  ```
+
+  Kwota w tabeli to szacunkowa wartość całego zamówienia, często umowy ramowej na kilka lat, a nie kwota dla jednego wykonawcy.
+- **TED** ma przetargi powyżej progów unijnych z całej UE: polskich ministerstw, wojska i Agencji Uzbrojenia, uczelni, szpitali, samorządów i spółek oraz instytucji UE. Skrypt czyta API bez klucza i odsiewa ogłoszenia z minionym terminem:
+
+  ```bash
+  python3 scripts/przetargi_ted.py --tekst 'dron*' 'bezzałog*' UAV --cpv 34711200 35
+  python3 scripts/przetargi_ted.py --cpv 73 --kraj POL
+  python3 scripts/przetargi_ted.py --zamawiajacy "European Defence Agency" --wszystkie-kraje
+  python3 scripts/przetargi_ted.py --tekst "sztuczna inteligencja" --zapowiedzi
+  ```
+
+  Słowa podawaj po polsku i po angielsku. Tekst łapie też ogłoszenia, w których słowo pada przy okazji, więc zawężaj kodem CPV (73 badania i rozwój, 72 usługi IT, 48 oprogramowanie, 35 sprzęt obronny). Dla instytucji UE dodaj `--wszystkie-kraje`, bo domyślnie skrypt szuka zamawiających z Polski.
+- **Poniżej progów unijnych** szukaj w Biuletynie Zamówień Publicznych w e-Zamówieniach i w Bazie Konkurencyjności (zamówienia beneficjentów funduszy UE), obu przez Chrome. Zamówień poniżej 130 000 zł netto ustawa nie obejmuje: ogłaszają je zamawiający na swoich stronach.
+- **Zamówienia przedkomercyjne (PCP):** zamawiający kupuje prace badawczo-rozwojowe etapami od kilku wykonawców naraz. W Polsce ogłasza je NCBR, zapowiedzi są w TED (`przetargi_ted.py --zamawiajacy "Narodowe Centrum Badań i Rozwoju" --zapowiedzi --zapowiedzi-dni 365`). Granty UE dla zamawiających na wspólne PCP mają w portalu tag `InnovationProcurement`.
+- **Oferty nie przygotowujesz.** Wskaż termin, warunki udziału (referencje, obroty, zespół), wymagane oświadczenia i wadium. Ofertę i ocenę zgodności z Prawem zamówień publicznych zostaw wykonawcy i jego prawnikowi.
+
+## Krok 7. Warunki udziału, zanim cokolwiek polecisz
 
 Dla każdego kandydata sprawdź w opisie naboru:
 
@@ -116,15 +147,16 @@ Dla każdego kandydata sprawdź w opisie naboru:
 - w programach regionalnych to, czy projekt jest realizowany w danym województwie; firma działająca tylko gdzie indziej zwykle odpada;
 - przy naborze zapowiedzianym, który nie ma jeszcze regulaminu, regulamin poprzedniej edycji tego samego działania. Warunki często się powtarzają. Przykład: regionalny nabór na lokalne ośrodki kształcenia dorosłych dopuszczał w 2026 roku jako wnioskodawców tylko organy prowadzące szkoły, a fundacja mogła być jedynie partnerem. Oznacz taki warunek jako „z poprzedniej edycji, do potwierdzenia”;
 - w obronności także kontrolę właścicielską, informacje niejawne i kontrolę eksportu (`references/obronnosc.md`);
+- w przetargach warunki udziału (doświadczenie i referencje, obroty, zespół), wadium, termin na pytania do zamawiającego i to, czy firma bez referencji może wejść jako podwykonawca albo w konsorcjum (`references/agendy-i-zamowienia.md`);
 - w konkursach ofert samorządów to, czy organizacja jest uprawniona według ogłoszenia (ustawa o działalności pożytku publicznego i o wolontariacie) i czy wymagany jest wkład własny.
 
 Nabór, który nie przechodzi tego sita, odrzuć. Jeśli wyglądał kusząco, napisz jednym zdaniem, dlaczego odpada, żeby nikt nie wracał do niego drugi raz.
 
-## Krok 7. Ocena dopasowania
+## Krok 8. Ocena dopasowania
 
 Oceń każdy nabór słowami: **mocne**, **możliwe** albo **słabe**, i dopisz jedno zdanie uzasadnienia. Bierz pod uwagę zgodność tematu, warunki udziału, ilość czasu do terminu (wniosek do Horyzontu z konsorcjum to tygodnie pracy, nie dni), skalę kwoty względem potrzeby i to, czy wnioskodawca ma już partnerów i wyniki, na które nabór patrzy. Nie licz punktów z przecinkiem. Przy kilku niewiadomych taka precyzja byłaby udawana.
 
-## Krok 8. Odpowiedź
+## Krok 9. Odpowiedź
 
 Odpowiadaj w czacie, chyba że ktoś poprosi o dokument. Wtedy skorzystaj ze skilla do dokumentów. Układ:
 
@@ -136,6 +168,9 @@ Odpowiadaj w czacie, chyba że ktoś poprosi o dokument. Wtedy skorzystaj ze ski
 ## Najlepiej pasujące
 | Nabór | Program | Termin | Na projekt | Kto może składać | Dopasowanie | Link |
 
+## Przetargi i kontrakty (zamówienie, nie dotacja; tylko gdy dotyczy)
+| Zamówienie | Zamawiający | Termin ofert | Szacunkowa wartość | Warunki udziału | Dopasowanie | Link |
+
 ## Do sprawdzenia
 [nabory z niejasnym warunkiem: co dokładnie trzeba potwierdzić i gdzie]
 
@@ -143,7 +178,7 @@ Odpowiadaj w czacie, chyba że ktoś poprosi o dokument. Wtedy skorzystaj ze ski
 [po jednym zdaniu]
 
 ## Od czego zacząć
-[rejestracje, które trwają; szukanie partnerów; konsultacja w KPK albo w punkcie informacyjnym]
+[rejestracje, które trwają (PIC, esa-star, bazy dostawców); szukanie partnerów; konsultacja w KPK albo w punkcie informacyjnym]
 
 ## Źródła
 [skąd każda lista i kiedy sprawdzona]
@@ -154,7 +189,7 @@ Na końcu napisz wprost, że żadne wyszukiwanie nie łapie wszystkiego. Zapropo
 ## Zasady
 
 - Kwoty, terminy i warunki podawaj tylko ze źródła sprawdzonego dzisiaj. Czego nie potwierdziłeś, oznacz jako „do sprawdzenia”, nawet jeśli pamiętasz, jak było rok temu: programy prac zmieniają się co rok.
-- Nie rejestruj organizacji, nie zakładaj kont, nie składaj wniosków i nie pisz do instytucji ani potencjalnych partnerów. Przygotowujesz, a decyduje i wysyła użytkownik.
+- Nie rejestruj organizacji, nie zakładaj kont, nie składaj wniosków ani ofert i nie pisz do instytucji ani potencjalnych partnerów. Przygotowujesz, a decyduje i wysyła użytkownik.
 - Ostrzegaj przed pośrednikami, którzy biorą opłatę z góry albo procent od dotacji. Bezpłatną pomoc dają Krajowy Punkt Kontaktowy (Horyzont Europa), punkty kontaktowe programów w portalu UE i Punkty Informacyjne Funduszy Europejskich.
 - To nie jest porada prawna ani finansowa. Przy pomocy publicznej, umowach, kontroli eksportu i koncesjach wskaż, co sprawdzić i u kogo, a nie oceniaj sam zgodności z prawem.
 - Kredyt, gwarancja albo inwestycja kapitałowa (np. NATO Innovation Fund, EIC STEP Scale Up Defence) to nie grant. Kredyt z premią, w której dotacja spłaca część kapitału (np. kredyt BGK na produkty podwójnego zastosowania), też nie jest czystą dotacją, bo najpierw trzeba dostać kredyt w banku. Jeśli je pokazujesz, oznacz to wprost.

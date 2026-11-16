@@ -19,7 +19,7 @@ Klucz `SEDIA` jest publiczny, używa go strona portalu. Treść żądania to `mu
 
 | Pole | Wartość | Znaczenie |
 |---|---|---|
-| `type` | `0` | przetarg (pomijamy) |
+| `type` | `0` | przetarg instytucji UE (`--typ przetargi`, domyślnie pomijany) |
 | | `1` | temat grantowy programu UE |
 | | `2` | zaproszenie do składania wniosków w pomocy zewnętrznej (EuropeAid, Prospect) |
 | | `8` | nabór kaskadowy, ogłaszany przez projekt UE (wsparcie dla stron trzecich) |
@@ -41,4 +41,5 @@ EDIP nie ma osobnego kodu programu. Jego tematy są pod `frameworkProgramme` EDF
 6. **Budżet.** U tematów grantowych w `budgetOverview` (tekst JSON): `budgetTopicActionMap` z pozycjami `action`, `minContribution`, `maxContribution`, `expectedGrants`, `budgetYearMap`, `deadlineDates`. Mapa obejmuje cały nabór, więc pozycje tematu wybiera się po początku nazwy `action` („IDENTYFIKATOR - …”). Część tematów ma `minContribution` i `maxContribution` wpisane w milionach (np. `15` przy `budgetYearMap` 15 000 000); skrypt przelicza wartości poniżej 1000. U naborów kaskadowych i zewnętrznych jest pole `budget` (cały nabór) i czasem `currency`.
 7. **Treść.** Opis tematu w `descriptionByte`, warunki w `topicConditions` (HTML, miejscami popsuty). U naborów kaskadowych opis w `description` i `furtherInformation`, warunki w `beneficiaryAdministration`.
 8. **Rekordy bez terminu** (`must_not exists deadlineDate`) to w praktyce stare ogłoszenia EuropeAid. Skrypt je pomija.
-9. **Strony tematów** (`.../topic-details/ID`) są aplikacją ładowaną skryptem. Zwykłe pobranie strony zwraca pustą powłokę. Treść bierz z API, a dokumenty naboru otwieraj w przeglądarce.
+9. **Przetargi (`type` 0)** mają zamawiającego w `cftLeadContractingAuthorityCode` (tekst JSON z listą instytucji i polem `isLeadAuthority`), szacunkową wartość w `cftEstimatedOverallContractAmount` i `cftEstimatedOverallContractCurrency`, kody CPV w `mainCpv`, numer postępowania w `callIdentifier`, a link do strony przetargu (`.../tender-details/ID`) w `url`. Pole `caName` to zwykle tytuł, nie zamawiający. Przetargi zapowiedziane i zaproszenia do wyrażenia zainteresowania (`-EXA`) często nie mają `deadlineDate`, więc filtr terminu je pomija. Stan 16.11.2026.
+10. **Strony tematów** (`.../topic-details/ID`) są aplikacją ładowaną skryptem. Zwykłe pobranie strony zwraca pustą powłokę. Treść bierz z API, a dokumenty naboru otwieraj w przeglądarce.
