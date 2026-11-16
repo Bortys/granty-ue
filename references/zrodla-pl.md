@@ -70,6 +70,7 @@ Szesnaście programów „Fundusze Europejskie dla [regionu]” prowadzą urzęd
 | NIW, Narodowy Instytut Wolności | programy dla organizacji pozarządowych, m.in. NOWEFIO i PROO | https://niw.gov.pl/ | bez przeglądarki |
 | MKiDN | programy ministra kultury i operatorów | https://www.gov.pl/web/kultura/programy-i-projekty | bez przeglądarki |
 | MRPiPS | nabory w polityce społecznej, np. z Funduszu Solidarnościowego | https://www.gov.pl/web/rodzina/nabory | bez przeglądarki |
+| KFS, Krajowy Fundusz Szkoleniowy (powiatowe urzędy pracy) | dofinansowanie szkoleń, studiów podyplomowych i egzaminów dla pracodawców i ich pracowników: 80% kosztów, w mikrofirmie (do 10 osób) 100%, najwyżej 300% przeciętnego wynagrodzenia na uczestnika. Wniosek musi spełniać jeden z priorytetów KFS na dany rok. Nabory ogłasza każdy powiatowy urząd pracy osobno, często kilka razy w roku i na kilka dni, z małą pulą (np. około 100 tys. zł). Składa pracodawca zatrudniający na umowę o pracę, więc KFS nie sfinansuje kursów, które organizacja prowadzi dla innych | zasady i priorytety: https://www.gov.pl/web/rodzina/krajowy-fundusz-szkoleniowy; nabory na stronie urzędu pracy właściwego dla siedziby firmy (adres `miasto.praca.gov.pl`, np. https://ostroda.praca.gov.pl/) i w katalogu (`katalog_grantow.py --tekst kształcenia ustawicznego`) | bez przeglądarki |
 | ARP, Agencja Rozwoju Przemysłu | konkursy i programy dla przemysłu, np. Dig.IT | https://arp.pl/pl/ | bez przeglądarki |
 | BGK | operator instrumentów finansowych i części naborów FENG; głównie finansowanie zwrotne | https://www.bgk.pl/ | bez przeglądarki |
 
@@ -96,6 +97,9 @@ Fundacje firmowe ogłaszają rundy grantowe na własnych stronach. Aktualność 
 | Fundacja PZU | https://fundacja.pzu.pl/dotacje |
 | Fundacja LOTTO | https://www.fundacjalotto.pl/ |
 | Fundacja ORLEN (i programy regionalne, np. ORLEN dla Pomorza) | https://fundacja.orlen.pl/pl |
+| Fundacja PKO Banku Polskiego: programy grantowe, np. „Pomagamy z Każdym Krokiem” (wsparcie psychologiczne dzieci i młodzieży; 16.11.2026 nabór do 25.11.2026, granty do 100 tys. zł i lokalne 60–75 tys. zł w 20 miejscowościach) | https://www.fundacjapkobp.pl/ |
+| Fundacja Erste: konkursy grantowe dla organizacji pozarządowych, np. „Haki na cyberataki” (edukacja o cyberbezpieczeństwie i oszustwach; granty 50 tys. zł dla fundacji i stowarzyszeń działających co najmniej 2 lata; edycja 2026 zamknięta 16.11.2026) | https://fundacja.erste.pl/ |
+| Kaufland, „Lepiej po sąsiedzku”: pieniądze na lokalne inicjatywy sąsiedzkie | https://lepiejposasiedzku.pl/ (Chrome) |
 
 ## Pomoc bez opłat
 

@@ -7,9 +7,9 @@ Obejmuje:
 - **programy UE:** Horyzont Europa z EIC, misjami i wspólnymi przedsięwzięciami (np. EuroHPC, CBE, Chips, Clean Hydrogen), Cyfrowa Europa, LIFE, Innovation Fund, CEF, Kreatywna Europa, Erasmus+, CERV i nabory kaskadowe ogłaszane przez projekty UE;
 - **obronność i technologie podwójnego zastosowania (dual use):** EDF z EDIP, EUDIS, EIC STEP Defence, NATO DIANA i NATO SPS, nabory obronne w FENG i w programach regionalnych;
 - **fundusze europejskie w Polsce:** FENG, FEPW, FERC, FERS, FEnIKS, 16 programów regionalnych, KPO;
-- **programy krajowe:** NCBR, NCN, NAWA, FNP, ABM, NFOŚiGW z Funduszem Modernizacyjnym, ARiMR, NIW i ministerstwa;
+- **programy krajowe:** NCBR, NCN, NAWA, FNP, ABM, NFOŚiGW z Funduszem Modernizacyjnym, ARiMR, NIW, ministerstwa i Krajowy Fundusz Szkoleniowy w powiatowych urzędach pracy;
 - **źródła lokalne i międzynarodowe:** konkursy ofert samorządów, fundacje, Fundusze EOG, Interreg i Interreg Europe, wspólne konkursy partnerstw europejskich (np. CETP, ERA-NET) z finansowaniem z NCBR albo NCN, Eureka, COST, EIT, ESA, European Urban Initiative, URBACT, Fundusz Wyszehradzki;
-- **agendy badawcze i przetargi:** kontrakty i rejestracja dostawców w ESA, EUSPA, CERN, ESO, F4E i ECMWF, ośrodki inkubacji ESA BIC, CASSINI, przetargi Komisji i agencji UE (np. EDA), TED z polskimi zamawiającymi i Agencją Uzbrojenia, Biuletyn Zamówień Publicznych, Baza Konkurencyjności, zamówienia przedkomercyjne (PCP).
+- **agendy badawcze i przetargi:** kontrakty i rejestracja dostawców w ESA, EUSPA, CERN (z zapowiedziami przetargów), ESO, EUMETSAT, EU SST, F4E i ECMWF, ośrodki inkubacji ESA BIC, CASSINI, przetargi Komisji i agencji UE (np. EDA), TED z polskimi zamawiającymi i Agencją Uzbrojenia, Biuletyn Zamówień Publicznych, Baza Konkurencyjności, zamówienia przedkomercyjne (PCP).
 
 Instrukcje i odpowiedzi są po polsku.
 

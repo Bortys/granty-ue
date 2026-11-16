@@ -85,9 +85,10 @@ Strony tematów w portalu ładują treść skryptem, więc zwykłe pobranie stro
 Przeczytaj `references/zrodla-pl.md` (programy, instytucje, regiony, samorządy, fundacje) i `references/zrodla-zagraniczne.md` (programy międzynarodowe spoza portalu UE). Wybierz źródła pasujące do wnioskodawcy:
 - firma innowacyjna: FENG, PARP, NCBR i program regionalny jej województwa;
 - naukowiec: NCN, NAWA, FNP i ABM;
-- organizacja pozarządowa: NIW, konkursy ofert samorządów i fundacje;
+- organizacja pozarządowa: NIW, konkursy ofert samorządów i fundacje firmowe (np. PZU, ORLEN, PKO BP, Erste, Kaufland);
 - gmina i miasto: programy regionalne, NFOŚiGW z Funduszem Modernizacyjnym, Fundusze EOG, a za granicą European Urban Initiative, URBACT i Interreg Europe;
-- energetyka i przemysł energochłonny: Fundusz Modernizacyjny i Innovation Fund.
+- energetyka i przemysł energochłonny: Fundusz Modernizacyjny i Innovation Fund;
+- pracodawca, który chce przeszkolić siebie albo pracowników: Krajowy Fundusz Szkoleniowy w powiatowym urzędzie pracy (nabory lokalne, krótkie, według priorytetów na dany rok).
 
 Wspólne międzynarodowe konkursy partnerstw europejskich (np. CETP w czystej energii, Water4All, sieci ERA-NET) ogłaszają same partnerstwa na swoich stronach, poza portalem UE. Projekt składa konsorcjum z kilku krajów, a każdego partnera finansuje agencja jego kraju, w Polsce NCBR albo NCN. Te nabory łatwo przeoczyć, a dla polskiej firmy albo uczelni bywają bliżej niż Horyzont.
 
