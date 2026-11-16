@@ -86,17 +86,30 @@ def _czas_api(d):
     return d.strftime("%Y-%m-%dT%H:%M:%S.000+0000")
 
 
-def _data(tekst):
+def _data_z_precyzja(tekst):
+    """Parsuje datę i zachowuje informację, czy źródło podało samą datę."""
     if not tekst:
         return None
     tekst = tekst.replace("Z", "+0000")
-    for wzor in ("%Y-%m-%dT%H:%M:%S.%f%z", "%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%d"):
+    formaty = (
+        ("%Y-%m-%dT%H:%M:%S.%f%z", False),
+        ("%Y-%m-%dT%H:%M:%S%z", False),
+        ("%Y-%m-%d", True),
+    )
+    for wzor, tylko_data in formaty:
         try:
             d = dt.datetime.strptime(tekst, wzor)
-            return d if d.tzinfo else d.replace(tzinfo=dt.timezone.utc)
+            d = d if d.tzinfo else d.replace(tzinfo=dt.timezone.utc)
+            return d, tylko_data
         except ValueError:
             continue
     return None
+
+
+def _data(tekst):
+    """Zwraca datetime, zachowując dotychczasowy interfejs dla pozostałych pól."""
+    wynik = _data_z_precyzja(tekst)
+    return wynik[0] if wynik else None
 
 
 def _pokaz_date(d, z_godzina=True):
@@ -106,6 +119,15 @@ def _pokaz_date(d, z_godzina=True):
     if not z_godzina or (d.hour, d.minute) == (0, 0):
         return d.strftime("%Y-%m-%d")
     return d.strftime("%Y-%m-%d %H:%M")
+
+
+def _czy_termin_aktualny(termin, teraz, tylko_data=False):
+    """Sprawdza termin; sama data pozostaje ważna do końca dnia UTC."""
+    if tylko_data:
+        dzis_utc = teraz.astimezone(dt.timezone.utc).date()
+        data_utc = termin.astimezone(dt.timezone.utc).date()
+        return data_utc >= dzis_utc
+    return termin >= teraz
 
 
 def _typy_dzialan(lista):
@@ -247,8 +269,15 @@ def rekord(wynik, teraz, programy):
         tytul = _pole(m, "callTitle") or tytul
         organizator = _pole(m, "projectAcronym")
     zamawiajacy = _zamawiajacy(m) if typ == "0" else None
-    terminy = sorted(d for d in (_data(x) for x in (m.get("deadlineDate") or [])) if d)
-    przyszle = [d for d in terminy if d >= teraz]
+    terminy = [
+        parsed for parsed in (_data_z_precyzja(x) for x in (m.get("deadlineDate") or []))
+        if parsed
+    ]
+    terminy.sort(key=lambda parsed: parsed[0])
+    przyszle = [
+        termin for termin, tylko_data in terminy
+        if _czy_termin_aktualny(termin, teraz, tylko_data)
+    ]
     kody = m.get("frameworkProgramme") or []
     program = ", ".join(programy.get(k, (k, k, 0))[0] for k in kody) or ("zamówienie UE" if typ == "0" else "?")
     budzet = _budzet_tematu(m, identyfikator) if typ == "1" else []
@@ -281,7 +310,7 @@ def rekord(wynik, teraz, programy):
         "typ_dzialania": _typy_dzialan(m.get("typesOfAction")),
         "otwarcie": _pokaz_date(_data(_pole(m, "startDate")), False),
         "nastepny_termin": _pokaz_date(przyszle[0]) if przyszle else None,
-        "wszystkie_terminy": [_pokaz_date(d) for d in terminy],
+        "wszystkie_terminy": [_pokaz_date(d) for d, _ in terminy],
         "model_skladania": _pole(m, "deadlineModel"),
         "na_projekt": kwota,
         "budzet": budzet,
@@ -296,6 +325,28 @@ def rekord(wynik, teraz, programy):
 
 def _bez_pol_wewnetrznych(r):
     return {k: v for k, v in r.items() if not k.startswith("_")}
+
+
+def _unikalne_rekordy(wyniki, teraz, programy, widziane=None):
+    """Przetwarza stronę wyników i usuwa powtórzenia po unikalnym API reference.
+
+    Nie deduplikuje po URL: różne nabory kaskadowe jednego projektu mogą
+    prowadzić do wspólnej strony projektu.
+    """
+    if widziane is None:
+        widziane = set()
+
+    rekordy = []
+    for wynik in wyniki:
+        pozycja = rekord(wynik, teraz, programy)
+        klucz = wynik.get("reference") or (
+            pozycja["link"], pozycja["tytul"], pozycja["nastepny_termin"]
+        )
+        if klucz in widziane:
+            continue
+        widziane.add(klucz)
+        rekordy.append(pozycja)
+    return rekordy
 
 
 # ---------- polecenia ----------
@@ -333,14 +384,7 @@ def szukaj(arg):
         dane = _post("search", {"text": tekst, "pageSize": STRONA, "pageNumber": strona}, pola)
         lacznie = dane.get("totalResults", 0)
         wyniki = dane.get("results", [])
-        for w in wyniki:
-            r = rekord(w, teraz, programy)
-            # Nie po linku: nabory kaskadowe jednego projektu mają wspólny adres strony projektu.
-            klucz = w.get("reference") or (r["link"], r["tytul"], r["nastepny_termin"])
-            if klucz in widziane:
-                continue
-            widziane.add(klucz)
-            rekordy.append(r)
+        rekordy.extend(_unikalne_rekordy(wyniki, teraz, programy, widziane))
         if not wyniki or strona * STRONA >= min(lacznie, arg.max_pobran):
             break
         strona += 1
