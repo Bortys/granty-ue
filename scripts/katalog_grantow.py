@@ -14,6 +14,7 @@ Przykłady:
   python3 katalog_grantow.py --temat Bezpieczeństwo --wnioskodawca Firmy Startupy
   python3 katalog_grantow.py --zasieg Regionalne --wojewodztwo podlaskie
   python3 katalog_grantow.py --wnioskodawca NGO --termin-do 2027-01-31
+  python3 katalog_grantow.py --rodzaj zamowienia --temat Kosmos   (zamówienia ESA, CERN, EUMETSAT, EUSPA)
   python3 katalog_grantow.py --raporty
 """
 
@@ -30,6 +31,10 @@ import urllib.request
 ADRES = "https://sokolinski.com/granty/catalog.php"
 STRONA = "https://sokolinski.com/granty/"
 UA = "granty-ue/1.1 (skill Claude; python-urllib)"
+# Pole "kind" w katalogu: brak = finansowanie (grant, dotacja, nagroda), "procurement" = zamówienie,
+# "consultation" = konsultacje rynkowe przed zamówieniem. Pole "planned" = termin przybliżony.
+RODZAJE = {"finansowanie": "", "zamowienia": "procurement", "konsultacje": "consultation"}
+RODZAJ_NAZWA = {"": "nabór", "procurement": "zamówienie", "consultation": "konsultacje rynkowe"}
 
 
 def pobierz():
@@ -92,6 +97,9 @@ def main():
     p.add_argument("--od", help="tylko nabory z terminem od tego dnia, RRRR-MM-DD (domyślnie dziś)")
     p.add_argument("--termin-do", help="tylko nabory z terminem najpóźniej tego dnia, RRRR-MM-DD")
     p.add_argument("--bez-terminu", action="store_true", help="dołącz pozycje bez podanego terminu (do sprawdzenia)")
+    p.add_argument("--rodzaj", nargs="+", choices=list(RODZAJE),
+                   help="finansowanie = granty, dotacje i nagrody; zamowienia = przetargi agend i instytucji "
+                        "(zamówienie, nie dotacja); konsultacje = konsultacje rynkowe przed zamówieniem; domyślnie wszystko")
     p.add_argument("--sortuj", choices=["termin", "budzet"], default="termin")
     p.add_argument("--limit", type=int, default=40)
     p.add_argument("--raporty", action="store_true", help="pokaż stan katalogu i linki do oficjalnych zestawień naborów, bez listy")
@@ -125,7 +133,10 @@ def main():
         return
 
     wynik = []
+    rodzaje = {RODZAJE[r] for r in a.rodzaj} if a.rodzaj else None
     for x in k.get("items", []):
+        if rodzaje is not None and (x.get("kind") or "") not in rodzaje:
+            continue
         koniec, start = data(x.get("end")), data(x.get("start"))
         if koniec:
             if koniec < od or (do and koniec > do):
@@ -150,6 +161,9 @@ def main():
             continue
         x = dict(x)
         x["status"] = "zapowiedziany" if start and start > dzis else ("otwarty" if koniec else "do sprawdzenia")
+        if x.get("planned"):
+            x["status"] = "planowany, termin przybliżony"
+        x["rodzaj"] = RODZAJ_NAZWA.get(x.get("kind") or "", x.get("kind"))
         wynik.append(x)
 
     if a.sortuj == "budzet":
@@ -165,18 +179,25 @@ def main():
         return
 
     print("\n".join(naglowek))
-    print(f"Pasuje {len(wynik)} z {len(k.get('items', []))} pozycji, pokazuję {len(pokaz)}.\n")
+    ile = {}
+    for x in wynik:
+        ile[x["rodzaj"]] = ile.get(x["rodzaj"], 0) + 1
+    print(f"Pasuje {len(wynik)} z {len(k.get('items', []))} pozycji ("
+          + ", ".join(f"{n}: {i}" for n, i in sorted(ile.items())) + f"), pokazuję {len(pokaz)}.")
+    if ile.get("zamówienie") or ile.get("konsultacje rynkowe"):
+        print("Zamówienie to nie dotacja: zamawiający płaci za wykonanie, a ofertę składa się według dokumentów zamówienia.")
+    print()
     if not pokaz:
         return
-    print("| Termin | Status | Zasięg | Program | Tytuł | Organizator | Dla kogo | Budżet naboru | Link |")
-    print("|---|---|---|---|---|---|---|---|---|")
+    print("| Termin | Status | Rodzaj | Zasięg | Program | Tytuł | Organizator | Dla kogo | Budżet | Link |")
+    print("|---|---|---|---|---|---|---|---|---|---|")
     for x in pokaz:
         zasieg = x.get("scope", "") + (f" ({x['region']})" if x.get("region") else "")
         tytul = (x.get("title") or "").replace("|", "/")
         if len(tytul) > 110:
             tytul = tytul[:107].rsplit(" ", 1)[0] + "..."
         print("| " + " | ".join([
-            x.get("end") or "brak", x["status"], zasieg, (x.get("program") or "").replace("|", "/"), tytul,
+            x.get("end") or "brak", x["status"], x["rodzaj"], zasieg, (x.get("program") or "").replace("|", "/"), tytul,
             (x.get("host") or x.get("source") or "").replace("|", "/")[:60], ", ".join(x.get("audiences", [])) or "do sprawdzenia",
             budzet(x) or "do sprawdzenia", x.get("url", "")]) + " |")
 

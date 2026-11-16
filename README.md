@@ -30,7 +30,7 @@ Instrukcje i odpowiedzi są po polsku.
 | `SKILL.md` | instrukcja dla Claude w dziewięciu krokach |
 | `scripts/nabory_ue.py` | wyszukiwanie w API Funding & Tenders: polecenia `szukaj`, `temat` i `programy`, także przetargi instytucji UE (`--typ przetargi`) |
 | `scripts/przetargi_ted.py` | wyszukiwanie przetargów w API TED: tekst, kody CPV, zamawiający, kraj, termin, zapowiedzi |
-| `scripts/katalog_grantow.py` | wyszukiwanie w katalogu Kierunek Grant: tekst, temat, wnioskodawca, zasięg, województwo, termin |
+| `scripts/katalog_grantow.py` | wyszukiwanie w katalogu Kierunek Grant: tekst, temat, wnioskodawca, zasięg, województwo, termin, rodzaj (nabory, zamówienia agend, konsultacje rynkowe) |
 | `references/zrodla-pl.md` | polskie źródła: listy zbiorcze, programy, 16 portali regionalnych, instytucje, samorządy, fundacje |
 | `references/zrodla-zagraniczne.md` | programy międzynarodowe spoza portalu UE |
 | `references/obronnosc.md` | obronność, bezpieczeństwo i dual use: źródła, polecenia, warunki |

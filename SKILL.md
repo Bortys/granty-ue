@@ -46,6 +46,7 @@ python3 scripts/katalog_grantow.py --raporty
 - **Tematy w katalogu:** B+R i innowacje, Cyfryzacja i AI, Bezpieczeństwo, Kosmos, Energia i klimat, Środowisko, Zdrowie, Edukacja i kompetencje, Kultura i turystyka, Sprawy społeczne, Rozwój firmy, Infrastruktura i transport. Tytuły są po polsku, więc `--tekst` pisz po polsku. Skrótu „AI” nie szukaj tekstem, bo pasuje do wielu słów. Użyj `--temat Cyfryzacja`.
 - **Województwo** mają tylko nabory regionalne. Dla firmy z regionu zrób dwa zapytania: regionalne z województwem i krajowe.
 - **Katalog to trop.** Termin, kwotę i warunki potwierdzasz w ogłoszeniu pod linkiem. Skrypt ostrzega, gdy stan katalogu ma więcej niż tydzień. `--raporty` daje linki do oficjalnych miesięcznych zestawień naborów (XLSX) z Portalu Funduszy Europejskich, przydatnych do kontroli.
+- **Katalog ma też zamówienia i konsultacje rynkowe** agend badawczych (ESA, CERN, EUMETSAT, EUSPA, ECMWF), z kolumną „Rodzaj”. Zamówienie to nie dotacja, więc w odpowiedzi idzie do tabeli przetargów (krok 6). Gdy szukasz tylko dotacji, dodaj `--rodzaj finansowanie`.
 - **Brak naboru w katalogu nie znaczy, że go nie ma.** Dlatego są kroki 3–6.
 
 ## Krok 3. Nabory UE ze skryptu
@@ -113,6 +114,7 @@ Gdy wnioskodawca może sprzedawać usługi, sprzęt albo prace badawczo-rozwojow
 
 - **Pieniądze ESA dla firm:** ESA Space Solutions daje dofinansowanie bez oddawania udziałów, od 60 tys. do ponad 3 mln EUR: Kick-starts (nabór zawsze otwarty), studia wykonalności, projekty pilotażowe, Growth Projects i nabory tematyczne. Listę otwartych naborów czytaj na https://business.esa.int/funding, bez przeglądarki. Pełny wniosek wymaga pisemnej zgody polskiej delegacji (Written Authorisation), więc kontakt z delegacją wpisz do „Od czego zacząć”. Przez Chrome trzeba czytać tylko esa-star.
 - **Agendy i organizacje badawcze** (ESA, EUSPA, CERN, ESO, F4E, ECMWF) kupują głównie od firm z państw członkowskich. Polska należy do ESA, CERN i ESO. Pierwszym krokiem jest rejestracja dostawcy (esa-star w ESA, bazy dostawców CERN i ESO), bo część zaproszeń trafia tylko do zarejestrowanych firm. Startup kosmiczny może też iść do ośrodka inkubacji ESA BIC (50 tys. EUR bez oddawania udziałów) albo do wyzwań i akceleratora CASSINI.
+- **Zamówienia ESA, CERN, EUMETSAT i EUSPA** są po polsku w katalogu Kierunek Grant: `katalog_grantow.py --rodzaj zamowienia --temat Kosmos`. Pozycje ESA pochodzą z esa-star, a ich opis (`--json`, pole `description`) mówi, czy Polska jest na liście państw wskazanych dla postępowania. Tak sprawdzisz esa-star bez przeglądarki.
 - **Przetargi Komisji i agencji UE** (np. EDA, EUSPA, SatCen, JRC) są w portalu UE:
 
   ```bash
