@@ -108,6 +108,13 @@ def _pokaz_date(d, z_godzina=True):
     return d.strftime("%Y-%m-%d %H:%M")
 
 
+def _czy_termin_aktualny(termin, teraz):
+    """Treat midnight-only deadlines as date-only values valid through that date."""
+    if (termin.hour, termin.minute, termin.second, termin.microsecond) == (0, 0, 0, 0):
+        return termin.date() >= teraz.date()
+    return termin >= teraz
+
+
 def _typy_dzialan(lista):
     """Skraca nazwy typów działań: bez przedrostka programu, bez powtórzeń."""
     wynik = []
@@ -248,7 +255,7 @@ def rekord(wynik, teraz, programy):
         organizator = _pole(m, "projectAcronym")
     zamawiajacy = _zamawiajacy(m) if typ == "0" else None
     terminy = sorted(d for d in (_data(x) for x in (m.get("deadlineDate") or [])) if d)
-    przyszle = [d for d in terminy if d >= teraz]
+    przyszle = [d for d in terminy if _czy_termin_aktualny(d, teraz)]
     kody = m.get("frameworkProgramme") or []
     program = ", ".join(programy.get(k, (k, k, 0))[0] for k in kody) or ("zamówienie UE" if typ == "0" else "?")
     budzet = _budzet_tematu(m, identyfikator) if typ == "1" else []
@@ -298,6 +305,28 @@ def _bez_pol_wewnetrznych(r):
     return {k: v for k, v in r.items() if not k.startswith("_")}
 
 
+def _unikalne_rekordy(wyniki, teraz, programy, widziane=None):
+    """Przetwarza stronę wyników i usuwa powtórzenia po unikalnym API reference.
+
+    Nie deduplikuje po URL: różne nabory kaskadowe jednego projektu mogą
+    prowadzić do wspólnej strony projektu.
+    """
+    if widziane is None:
+        widziane = set()
+
+    rekordy = []
+    for wynik in wyniki:
+        pozycja = rekord(wynik, teraz, programy)
+        klucz = wynik.get("reference") or (
+            pozycja["link"], pozycja["tytul"], pozycja["nastepny_termin"]
+        )
+        if klucz in widziane:
+            continue
+        widziane.add(klucz)
+        rekordy.append(pozycja)
+    return rekordy
+
+
 # ---------- polecenia ----------
 
 def szukaj(arg):
@@ -333,14 +362,7 @@ def szukaj(arg):
         dane = _post("search", {"text": tekst, "pageSize": STRONA, "pageNumber": strona}, pola)
         lacznie = dane.get("totalResults", 0)
         wyniki = dane.get("results", [])
-        for w in wyniki:
-            r = rekord(w, teraz, programy)
-            # Nie po linku: nabory kaskadowe jednego projektu mają wspólny adres strony projektu.
-            klucz = w.get("reference") or (r["link"], r["tytul"], r["nastepny_termin"])
-            if klucz in widziane:
-                continue
-            widziane.add(klucz)
-            rekordy.append(r)
+        rekordy.extend(_unikalne_rekordy(wyniki, teraz, programy, widziane))
         if not wyniki or strona * STRONA >= min(lacznie, arg.max_pobran):
             break
         strona += 1
