@@ -1,6 +1,6 @@
 ---
 name: granty-ue
-description: "Szuka otwartych i zapowiedzianych naborów na granty i dotacje: programy UE (Horyzont Europa z EIC, Cyfrowa Europa, LIFE, Kreatywna Europa, Erasmus+, CERV), obronność i podwójne zastosowanie (EDF, EDIP, EUDIS, EIC STEP Defence, NATO DIANA), nabory kaskadowe, FENG, PARP, NCBR, KPO, programy regionalne, NFOŚiGW, ARiMR, NCN, NAWA, NIW, Fundusze EOG, Interreg, konkursy samorządów i fundacji. Przeszukuje katalog Kierunek Grant i oficjalne API portalu Funding & Tenders, czyta strony instytucji, sprawdza warunki udziału i oddaje krótką listę z terminami, kwotami i linkami. Używaj zawsze, gdy ktoś pyta o granty, dotacje, nabory, konkursy, dofinansowanie albo pieniądze na projekt badawczy, innowacyjny, cyfrowy, obronny, społeczny lub lokalny, także bez słowa „grant”: „gdzie dostać pieniądze na…”, „czy jest nabór na AI”, „dual use”, „EIC Accelerator”, „ścieżka SMART”, „konkurs ofert dla NGO”. Nie do przetargów publicznych (TED) ani do samego pisania wniosku."
+description: "Szuka otwartych i zapowiedzianych naborów na granty i dotacje: programy UE (Horyzont Europa z EIC i misjami, Cyfrowa Europa, LIFE, Innovation Fund, CEF, Kreatywna Europa, Erasmus+, CERV), obronność i podwójne zastosowanie (EDF, EDIP, EUDIS, EIC STEP Defence, NATO DIANA), nabory kaskadowe, FENG, PARP, NCBR, KPO, programy regionalne, NFOŚiGW, ARiMR, NCN, NAWA, NIW, Fundusze EOG, Interreg, konkursy samorządów i fundacji. Przeszukuje katalog Kierunek Grant i oficjalne API portalu Funding & Tenders, czyta strony instytucji, sprawdza warunki udziału i oddaje krótką listę z terminami, kwotami i linkami. Używaj zawsze, gdy ktoś pyta o granty, dotacje, nabory, konkursy, dofinansowanie albo pieniądze na projekt badawczy, innowacyjny, cyfrowy, obronny, społeczny lub lokalny, także bez słowa „grant”: „gdzie dostać pieniądze na…”, „czy jest nabór na AI”, „dual use”, „EIC Accelerator”, „ścieżka SMART”, „konkurs ofert dla NGO”. Nie do przetargów publicznych (TED) ani do samego pisania wniosku."
 ---
 
 # Granty i dotacje: UE, Polska, obronność
@@ -66,19 +66,33 @@ Jak z niego korzystać, żeby wynik był sensowny:
 - **Tekst w API łapie dowolne ze słów.** Zapytanie „EIC Accelerator” zwróci też tematy o fotowoltaice. Do zawężania służą `--fraza` (fraza musi wystąpić w tytule albo opisie), `--prefiks` (początek identyfikatora, np. `HORIZON-EIC`, `HORIZON-CL4-2027`, `DIGITAL-2026`, `EDF-EDIP`) i `--priorytet` (tagi przekrojowe portalu, np. `AI`, `DigitalAgenda`, `SocInnov`). Pełną listę programów i tagów daje polecenie `programy`.
 - **Zrób kilka wąskich zapytań zamiast jednego szerokiego**, np. osobno fraza, osobno tag AI w Horyzoncie, osobno nabory kaskadowe. Potem połącz wyniki z katalogiem i usuń powtórki.
 - **Nabory kaskadowe** (`--typ kaskadowe`) ogłaszają projekty finansowane przez UE, które rozdają część budżetu dalej, zwykle firmom. Kwoty na jeden projekt są mniejsze niż w Horyzoncie i często nie trzeba konsorcjum, więc dla startupu i MŚP to bywa najrealniejsza droga. Kwota w tabeli dotyczy całego naboru, a nie jednego projektu. Link prowadzi do strony projektu, na której bywa kilka jego naborów naraz: szukaj tam tytułu z tabeli.
+- **Misje, partnerstwa i duże fundusze mają własne przedrostki:**
+  - misje UE: `HORIZON-MISS` (rak, adaptacja do zmian klimatu, oceany i wody, miasta neutralne klimatycznie, gleba);
+  - wspólne przedsięwzięcia UE (Joint Undertakings): `HORIZON-JU`, `HORIZON-JTI` i `DIGITAL-JU` (np. EuroHPC, CBE, Chips, Clean Hydrogen);
+  - Innovation Fund (duże projekty dekarbonizacji przemysłu i energetyki, także aukcje Europejskiego Banku Wodorowego): `INNOVFUND`;
+  - CEF (transport, energia, łączność cyfrowa): kod programu `CEF`.
+
+  16.11.2026 było 30 tematów misji, 6 naborów EuroHPC, 2 Chips JU i 1 CBE JU, a Innovation Fund i CEF nie miały otwartych naborów. Zapytanie: `szukaj --prefiks HORIZON-MISS HORIZON-JU HORIZON-JTI DIGITAL-JU INNOVFUND`.
 - **Przed poleceniem czegokolwiek uruchom `temat <identyfikator>`** dla każdego kandydata. Dostaniesz budżet z widełkami dotacji, wszystkie terminy, opis i warunki udziału prosto z API. Opisy są po angielsku, więc streszczaj je po polsku.
 
 Strony tematów w portalu ładują treść skryptem, więc zwykłe pobranie strony nic nie da. Gdy trzeba zajrzeć do dokumentów naboru (program pracy, załączniki), otwórz link w Claude in Chrome. Opis API i jego pułapek jest w `references/api-ft.md`, czytaj go tylko przy błędach skryptu.
 
 ## Krok 4. Źródła poza katalogiem i portalem UE
 
-Przeczytaj `references/zrodla-pl.md` (programy, instytucje, regiony, samorządy, fundacje) i `references/zrodla-zagraniczne.md` (programy międzynarodowe spoza portalu UE). Wybierz źródła pasujące do wnioskodawcy: firma innowacyjna to FENG, PARP, NCBR i jej region, naukowiec to NCN, NAWA, FNP i ABM, organizacja pozarządowa to NIW, konkursy ofert samorządów i fundacje, gmina to programy regionalne, NFOŚiGW i Fundusze EOG.
+Przeczytaj `references/zrodla-pl.md` (programy, instytucje, regiony, samorządy, fundacje) i `references/zrodla-zagraniczne.md` (programy międzynarodowe spoza portalu UE). Wybierz źródła pasujące do wnioskodawcy:
+- firma innowacyjna: FENG, PARP, NCBR i program regionalny jej województwa;
+- naukowiec: NCN, NAWA, FNP i ABM;
+- organizacja pozarządowa: NIW, konkursy ofert samorządów i fundacje;
+- gmina i miasto: programy regionalne, NFOŚiGW z Funduszem Modernizacyjnym, Fundusze EOG, a za granicą European Urban Initiative, URBACT i Interreg Europe;
+- energetyka i przemysł energochłonny: Fundusz Modernizacyjny i Innovation Fund.
+
+Wspólne międzynarodowe konkursy partnerstw europejskich (np. CETP w czystej energii, Water4All, sieci ERA-NET) ogłaszają same partnerstwa na swoich stronach, poza portalem UE. Projekt składa konsorcjum z kilku krajów, a każdego partnera finansuje agencja jego kraju, w Polsce NCBR albo NCN. Te nabory łatwo przeoczyć, a dla polskiej firmy albo uczelni bywają bliżej niż Horyzont.
 
 Część stron ładuje wyniki skryptem albo blokuje zwykłe pobieranie: wyszukiwarka dotacji, WOD2021, PARP, lista konkursów NCBR, NCN, NATO DIANA i Eureka. Czytaj je przez Claude in Chrome (`get_page_text`). Strony gov.pl i większość pozostałych da się czytać bez przeglądarki.
 
 Patrz też na harmonogramy naborów programów. Nabór zapowiedziany na za dwa miesiące bywa cenniejszy od otwartego, który zamyka się za tydzień.
 
-Serwisy prywatne, firmy doradcze i media traktuj jako trop. Kwotę, termin i warunki bierzesz ze strony instytucji, która prowadzi nabór.
+Serwisy prywatne, firmy doradcze i media traktuj jako trop. Przeglądy programów firm doradczych (np. Zabala Innovation, `zrodla-zagraniczne.md`) pomagają sprawdzić, czy nie pominąłeś całego programu. Kwotę, termin i warunki bierzesz ze strony instytucji, która prowadzi nabór.
 
 ## Krok 5. Obronność i podwójne zastosowanie
 
@@ -86,6 +100,7 @@ Gdy projekt dotyka obronności, bezpieczeństwa, cyberbezpieczeństwa, kosmosu a
 
 - **Horyzont Europa i EIT finansują wyłącznie zastosowania cywilne.** Technologie wojskowe idą przez EDF z EDIP. Od 17.06.2026 EIC finansuje też technologie obronne i dual use: EIC Accelerator przyjmuje projekty dual use na warunkach z programu pracy EIC. EIC STEP Scale Up Defence to wyłącznie inwestycja kapitałowa 10–30 mln EUR dla firm z rundą od 50 do 150 mln EUR, a nie dotacja.
 - **W portalu UE:** `szukaj --program EDF ISF` (EDF obejmuje też tematy EDIP z identyfikatorami `EDF-EDIP` i nabory kaskadowe dla MŚP), `szukaj --prefiks HORIZON-CL3` (bezpieczeństwo cywilne), `szukaj --prefiks DIGITAL-ECCC` (cyberbezpieczeństwo, w tym temat „Dual-use technologies”), `szukaj --prefiks HORIZON-EIC` (EIC STEP Defence).
+- **Kosmos:** `katalog_grantow.py --temat Kosmos`, a za granicą ESA i POLSA (`zrodla-zagraniczne.md`).
 - **Poza portalem:** EUDIS (akcelerator, hackathony, wyzwania technologiczne), NATO DIANA, NATO SPS. W Polsce: FENG (STEP w obronności, Granty na Eurogranty na przygotowanie wniosku do EDF i EDIP, FNP First Team dla dual use), NCBR i programy regionalne z działaniami dual use. W katalogu znajdziesz je przez `--temat Bezpieczeństwo`.
 - **Warunki są ostrzejsze niż w zwykłych grantach:** kontrola właścicielska, konsorcjum z co najmniej trzech państw w EDF, informacje niejawne i poświadczenia bezpieczeństwa, kontrola eksportu, koncesja na technologie wojskowe. Sprawdź je w kroku 6, zanim cokolwiek polecisz.
 

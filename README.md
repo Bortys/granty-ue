@@ -4,11 +4,11 @@ Skill do Claude, który szuka otwartych i zapowiedzianych naborów na granty i d
 
 Obejmuje:
 
-- **programy UE:** Horyzont Europa z EIC, Cyfrowa Europa, LIFE, Kreatywna Europa, Erasmus+, CERV i nabory kaskadowe ogłaszane przez projekty UE;
+- **programy UE:** Horyzont Europa z EIC, misjami i wspólnymi przedsięwzięciami (np. EuroHPC, CBE, Chips, Clean Hydrogen), Cyfrowa Europa, LIFE, Innovation Fund, CEF, Kreatywna Europa, Erasmus+, CERV i nabory kaskadowe ogłaszane przez projekty UE;
 - **obronność i technologie podwójnego zastosowania (dual use):** EDF z EDIP, EUDIS, EIC STEP Defence, NATO DIANA i NATO SPS, nabory obronne w FENG i w programach regionalnych;
 - **fundusze europejskie w Polsce:** FENG, FEPW, FERC, FERS, FEnIKS, 16 programów regionalnych, KPO;
-- **programy krajowe:** NCBR, NCN, NAWA, FNP, ABM, NFOŚiGW, ARiMR, NIW i ministerstwa;
-- **źródła lokalne i międzynarodowe:** konkursy ofert samorządów, fundacje, Fundusze EOG, Interreg, Eureka, EIT, ESA, Fundusz Wyszehradzki.
+- **programy krajowe:** NCBR, NCN, NAWA, FNP, ABM, NFOŚiGW z Funduszem Modernizacyjnym, ARiMR, NIW i ministerstwa;
+- **źródła lokalne i międzynarodowe:** konkursy ofert samorządów, fundacje, Fundusze EOG, Interreg i Interreg Europe, wspólne konkursy partnerstw europejskich (np. CETP, ERA-NET) z finansowaniem z NCBR albo NCN, Eureka, COST, EIT, ESA, European Urban Initiative, URBACT, Fundusz Wyszehradzki.
 
 Instrukcje i odpowiedzi są po polsku.
 
@@ -82,4 +82,4 @@ Licencja nie obejmuje danych z katalogu Kierunek Grant ani z portalu Funding & T
 
 ## In English
 
-A Claude skill that finds open and upcoming grant calls: EU programmes (Horizon Europe with EIC, Digital Europe, LIFE, Creative Europe, Erasmus+, CERV, cascade funding), defence and dual-use funding (EDF with EDIP, EUDIS, EIC STEP Defence, NATO DIANA and SPS), EU cohesion funds in Poland, Polish national programmes, local calls and foundations. It queries the official Funding & Tenders search API and the Kierunek Grant catalogue, checks eligibility and returns a short list with deadlines, amounts and links. Instructions and answers are in Polish. Scripts need only the Python standard library. MIT licence.
+A Claude skill that finds open and upcoming grant calls: EU programmes (Horizon Europe with EIC, missions and joint undertakings, Digital Europe, LIFE, Innovation Fund, CEF, Creative Europe, Erasmus+, CERV, cascade funding), co-funded European partnership calls, defence and dual-use funding (EDF with EDIP, EUDIS, EIC STEP Defence, NATO DIANA and SPS), EU cohesion funds in Poland, Polish national programmes, local calls and foundations. It queries the official Funding & Tenders search API and the Kierunek Grant catalogue, checks eligibility and returns a short list with deadlines, amounts and links. Instructions and answers are in Polish. Scripts need only the Python standard library. MIT licence.

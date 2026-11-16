@@ -63,6 +63,9 @@ Szesnaście programów „Fundusze Europejskie dla [regionu]” prowadzą urzęd
 | ABM, Agencja Badań Medycznych | badania medyczne i kliniczne | https://abm.gov.pl/ | bez przeglądarki |
 | MNiSW | programy ministra, np. Narodowy Program Rozwoju Humanistyki | https://www.gov.pl/web/nauka | bez przeglądarki |
 | NFOŚiGW | ochrona środowiska, energia, klimat: programy priorytetowe; wojewódzkie fundusze (WFOŚiGW) mają własne nabory | https://www.gov.pl/web/nfosigw/harmonogram-naborow | bez przeglądarki |
+| Fundusz Modernizacyjny (prowadzi NFOŚiGW) | transformacja energetyki: ciepłownictwo, OZE, efektywność energetyczna, przemysł energochłonny (np. program „Przemysł energochłonny – OZE”, ponad 348 mln zł) | https://www.gov.pl/web/funduszmodernizacyjny | bez przeglądarki |
+| NCBR, programy międzynarodowe | finansowanie polskich uczestników wspólnych konkursów partnerstw Horyzontu Europa, ERA-NET, Eurostars, CORNET i programów dwustronnych | https://www.gov.pl/web/ncbr/programy--miedzynarodowe | bez przeglądarki |
+| NCN, konkursy międzynarodowe | harmonogram konkursów wielostronnych (np. Weave, partnerstwa europejskie) | https://ncn.gov.pl/wspolpraca-zagraniczna/harmonogram-konkursow | Chrome |
 | ARiMR | Plan Strategiczny WPR 2023–2027: rolnicy, obszary wiejskie, LEADER przez lokalne grupy działania | https://www.gov.pl/web/arimr/plan-strategiczny-dla-wspolnej-polityki-rolnej-na-lata-2023-2027---dzialania | bez przeglądarki |
 | NIW, Narodowy Instytut Wolności | programy dla organizacji pozarządowych, m.in. NOWEFIO i PROO | https://niw.gov.pl/ | bez przeglądarki |
 | MKiDN | programy ministra kultury i operatorów | https://www.gov.pl/web/kultura/programy-i-projekty | bez przeglądarki |
